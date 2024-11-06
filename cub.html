@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анимация Куба OASIS</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            overflow: hidden;
+        }
+
+        .scene {
+            width: 200px;
+            height: 200px;
+            perspective: 600px;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 10s infinite linear; /* Увеличено время анимации */
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 5px solid #00ffff; /* Неоновый голубой цвет */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #ff7f00; /* Неоновый оранжевый цвет */
+            text-shadow: 0 0 20px #ff7f00;
+        }
+
+        .front  { transform: rotateY(  0deg) translateZ(100px); }
+        .back   { transform: rotateY(180deg) translateZ(100px); }
+        .right  { transform: rotateY( 90deg) translateZ(100px); }
+        .left   { transform: rotateY(-90deg) translateZ(100px); }
+        .top    { transform: rotateX( 90deg) translateZ(100px); }
+        .bottom { transform: rotateX(-90deg) translateZ(100px); }
+
+        @keyframes rotate {
+            0% { transform: rotateX(0) rotateY(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes jump {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes explode {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.5); }
+        }
+
+        .piece {
+            position: absolute;
+            width: 50px; /* Размер кусочков */
+            height: 50px; /* Размер кусочков */
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ffff;
+            opacity: 1;
+            animation: explode 1s forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="cube" id="cube">
+            <div class="cube-face front">OASIS</div>
+            <div class="cube-face back">OASIS</div>
+            <div class="cube-face right">OASIS</div>
+            <div class="cube-face left">OASIS</div>
+            <div class="cube-face top">OASIS</div>
+            <div class="cube-face bottom">OASIS</div>
+        </div>
+    </div>
+
+    <script>
+        // Функция для создания кусочков и анимации
+        function explodeCube() {
+            const cube = document.getElementById('cube');
+            const pieces = [];
+
+            // Создаем кусочки куба
+            for (let i = 0; i < 8; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'piece';
+                piece.style.left = `${Math.random() * 200}px`;
+                piece.style.top = `${Math.random() * 200}px`;
+                piece.style.transform = `translateZ(${Math.random() * 100}px)`;
+                document.body.appendChild(piece);
+                pieces.push(piece);
+            }
+
+                        // Анимация подпрыгивания
+            cube.style.animation = 'jump 0.5s forwards';
+
+            // Задержка перед рассыпанием кусочков
+            setTimeout(() => {
+                pieces.forEach((piece, index) => {
+                    // Задаем случайные направления и скорости для каждого кусочка
+                    const angle = Math.random() * 2 * Math.PI; // Случайный угол
+                    const distance = Math.random() * 100 + 50; // Случайное расстояние
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+
+                    // Применяем анимацию рассыпания
+                    piece.style.transform = `translate(${x}px, ${y}px)`;
+                    piece.style.animation = `explode 1s forwards`;
+                    
+                    // Удаляем кусочек после анимации
+                    setTimeout(() => {
+                        piece.remove();
+                    }, 1000);
+                });
+            }, 500); // Задержка перед рассыпанием
+        }
+
+        // Функция для плавного исчезновения куба и редиректа
+        function fadeOutAndRedirect() {
+            const cube = document.getElementById('cube');
+            cube.style.animation = 'fadeOut 2s forwards'; // Применяем анимацию исчезновения
+
+            setTimeout(() => {
+                window.location.href = 'payment.html'; // Редирект на страницу оплаты
+            }, 2000); // Задержка перед редиректом
+        }
+
+        // Устанавливаем таймер для редиректа после завершения анимации вращения
+        setTimeout(() => {
+            explodeCube(); // Запускаем анимацию рассыпания
+            fadeOutAndRedirect(); // Запускаем исчезновение и редирект
+        }, 10000); // 10 секунд вращения
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказы</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #00ffff;
+        }
+        .order-list {
+            margin: 20px auto;
+            max-width: 800px;
+        }
+        .order {
+            background-color: #1a1a1a;
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h2>Список заказов</h2>
+    <div class="order-list" id="order-list"></div>
+
+    <script>
+        function displayOrders() {
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const orderList = document.getElementById('order-list');
+            orderList.innerHTML = '';
+
+            if (orders.length === 0) {
+                orderList.innerHTML = '<p>Нет заказов.</p>';
+                return;
+            }
+
+            orders.forEach((order, index) => {
+                const orderDiv = document.createElement('div');
+                orderDiv.className = 'order';
+                orderDiv.innerHTML = `
+                    <h3>Заказ ${index + 1}</h3>
+                    <p>Услуга: ${order.service}</p>
+                    <p>Цена: ${order.price}₽</p>
+                    <p>Пожелания: ${order.wishes}</p>
+                `;
+                                orderList.appendChild(orderDiv);
+            });
+        }
+
+        // Вызов функции для отображения заказов при загрузке страницы
+        window.onload = displayOrders;
+    </script>
+</body>
+</html>

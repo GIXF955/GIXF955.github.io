@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазины Мальстрём</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ff0000;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .store {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .store img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .store-name {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 0, 0, 0.8);
+            font-size: 1.2em;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .store:hover {
+            transform: scale(1.05);
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Магазины Мальстрём</h1>
+</header>
+
+<div class="grid">
+    <div class="store" onclick="window.location.href='store1.html'">
+        <img src="store1.jpg" alt="Магазин 1">
+        <div class="store-name">Магазин 1</div>
+    </div>
+    <div class="store" onclick="window.location.href='store2.html'">
+        <img src="store2.jpg" alt="Магазин 2">
+        <div class="store-name">Магазин 2</div>
+    </div>
+    <div class="store" onclick="window.location.href='store3.html'">
+        <img src="store3.jpg" alt="Магазин 3">
+        <div class="store-name">Магазин 3</div>
+    </div>
+    <div class="store" onclick="window.location.href='store4.html'">
+        <img src="store4.jpg" alt="Магазин 4">
+        <div class="store-name">Магазин 4</div>
+    </div>
+    <!-- Добавьте больше магазинов по аналогии -->
+</div>
+
+</body>
+</html>

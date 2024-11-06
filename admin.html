@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ Панель</title>
+    <style>
+        body {
+            background-color: #000; /* Черный фон */
+            color: #00FF00; /* Светло-зеленый текст */
+            font-family: 'Arial', sans-serif; /* Простой шрифт */
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #00FF00; /* Зеленый фон */
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        main {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .order-list {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #1a1a1a;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Админ Панель</h1>
+    </header>
+    <main>
+        <div class="order-list">
+            <h2>Заказы</h2>
+            <ul id="order-items"></ul>
+        </div>
+    </main>
+
+    <script>
+        const orderItemsList = document.getElementById('order-items');
+
+        function updateOrderDisplay() {
+            orderItemsList.innerHTML = '';
+            fetch('/orders')
+                .then(response => response.json())
+                .then(orders => {
+                    orders.forEach(order => {
+                        const li = document.createElement('li');
+                        li.textContent = `Товар: ${order.product}, Пожелания: ${order.wishes}, IP: ${order.ip}, Дата: ${new Date(order.date).toLocaleString()}`;
+                        orderItemsList.appendChild(li);
+                    });
+                });
+        }
+
+        updateOrderDisplay();
+    </script>
+</body>
+</html>

