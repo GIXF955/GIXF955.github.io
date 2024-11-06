@@ -3,74 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход в админ-панель</title>
+    <title>Вход</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
             text-align: center;
+            padding: 50px;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
+        input {
+            margin: 10px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 200px;
         }
-
         button {
-            width: 100%;
             padding: 10px;
-            background-color: #5cb85c;
-            color: white;
+            background-color: #ff0000;
+            color: #fff;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
         }
-
         button:hover {
-            background-color: #4cae4c;
+            background-color: #ff6666;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Вход в админ-панель</h2>
-        <form action="/admin" method="POST" class="login-form">
-            <div class="form-group">
-                <label for="username">Имя пользователя:</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Пароль:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Войти</button>
-        </form>
-    </div>
+    <h1>Вход</h1>
+    <input type="text" placeholder="Логин" id="username">
+    <input type="password" placeholder="Пароль" id="password">
+    <br>
+    <button onclick="login()">Войти</button>
+    <p>Нет аккаунта? <a href="register.html">Зарегистрируйтесь</a></p>
+
+    <script>
+    function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Простой пример проверки логина и пароля
+        if (username === "admin" && password === "password") {
+            alert("Вход выполнен!");
+            // Перенаправление на главную страницу после успешного входа
+            window.location.href = "index.html";
+        } else {
+            alert("Неверный логин или пароль.");
+        }
+    }
+</script>
 </body>
 </html>
